@@ -4,7 +4,11 @@
 
 {% block content %}
 <div style="max-width: 800px; margin: 0 auto;">
-    <h2>💬 Чат с мастером</h2>
+    <h2>Чат с мастером</h2>
+
+    <div style="margin-bottom: 15px;">
+        <a href="/dashboard/client">← Назад в личный кабинет</a>
+    </div>
 
     <!-- Окно сообщений -->
     <div style="background: #f8f9fa; border-radius: 10px; height: 400px; overflow-y: auto; padding: 20px; margin-bottom: 20px;" id="chat-box">
@@ -32,36 +36,52 @@
         {% endfor %}
     </div>
 
-    <!-- Форма отправки -->
-    <form method="POST" action="/chat/send/{{ master.id }}" onsubmit="return validateForm()">
+    <!-- ФОРМА ОТПРАВКИ (БЕЗ АВТООБНОВЛЕНИЯ) -->
+    <form method="POST" action="/chat/send/{{ master.id }}" id="messageForm">
         <div style="display: flex; gap: 10px;">
-            <input type="text" name="message" id="message" placeholder="Введите сообщение..." style="flex: 1;" required>
-            <button type="submit" style="background: #27ae60;">📤 Отправить</button>
+            <input type="text" name="message" id="messageInput" placeholder="Введите сообщение..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px;" required autocomplete="off">
+            <button type="submit" style="background: #27ae60; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;">Отправить</button>
         </div>
     </form>
-
-    <p style="text-align: center; margin-top: 15px;">
-        <a href="/dashboard/client">← Вернуться в личный кабинет</a>
-    </p>
 </div>
 
 <script>
-    // Автопрокрутка вниз
+    // Прокрутка вниз при загрузке
     var chatBox = document.getElementById('chat-box');
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-    function validateForm() {
-        var msg = document.getElementById('message').value.trim();
-        if (msg === '') {
-            alert('Введите сообщение');
-            return false;
-        }
-        return true;
+    if (chatBox) {
+        chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // Автообновление каждые 5 секунд
-    setTimeout(function() {
-        location.reload();
-    }, 5000);
+    // НЕТ АВТООБНОВЛЕНИЯ СТРАНИЦЫ!
+    // Сообщения теперь не будут пропадать при вводе
+
+    // Фокус на поле ввода сразу
+    document.getElementById('messageInput').focus();
+
+    // Отправка формы без перезагрузки страницы (AJAX)
+    document.getElementById('messageForm').addEventListener('submit', function(e) {
+        e.preventDefault(); // Отменяем обычную отправку
+
+        var messageInput = document.getElementById('messageInput');
+        var message = messageInput.value.trim();
+
+        if (message === '') {
+            return;
+        }
+
+        // Отправляем через fetch
+        fetch(this.action, {
+            method: 'POST',
+            headers: {
+                'Content-Type': 'application/x-www-form-urlencoded',
+            },
+            body: 'message=' + encodeURIComponent(message)
+        }).then(function(response) {
+            // Очищаем поле ввода
+            messageInput.value = '';
+            // Обновляем чат (загружаем новые сообщения)
+            location.reload();
+        });
+    });
 </script>
 {% endblock %}
