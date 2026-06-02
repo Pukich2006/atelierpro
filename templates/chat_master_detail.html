@@ -39,21 +39,26 @@
     <!-- ФОРМА ОТПРАВКИ СООБЩЕНИЙ -->
     <form method="POST" action="/chat/send/{{ client.id }}">
         <div style="display: flex; gap: 10px;">
-            <input type="text" name="message" id="messageInput" placeholder="Введите сообщение..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px;" required>
+            <input type="text" name="message" id="messageInput" placeholder="Введите сообщение..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px;" required autocomplete="off">
             <button type="submit" style="background: #27ae60; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;">Отправить</button>
         </div>
     </form>
 </div>
 
 <script>
+    // Прокрутка вниз при загрузке
     var chatBox = document.getElementById('chat-box');
     if (chatBox) {
         chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // Автообновление каждые 3 секунды
-    setTimeout(function() {
-        location.reload();
-    }, 3000);
+    // Фокус на поле ввода
+    var messageInput = document.getElementById('messageInput');
+    if (messageInput) {
+        messageInput.focus();
+    }
+
+    // НЕТ АВТООБНОВЛЕНИЯ СТРАНИЦЫ!
+    // Убираем setTimeout который перезагружал страницу
 </script>
 {% endblock %}
