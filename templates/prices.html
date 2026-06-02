@@ -1,0 +1,69 @@
+{% extends "base.html" %}
+
+{% block title %}Расценки на услуги{% endblock %}
+
+{% block content %}
+<h2> Расценки на услуги ателье</h2>
+<p>Ниже представлены базовые цены на основные услуги. Вы можете предложить свою цену, но она должна быть не ниже указанной.</p>
+
+<div class="price-card">
+    <h3> Пошив одежды</h3>
+    <table style="width:100%; margin-top: 10px;">
+        <tr style="background: #2c3e50; color: white;">
+            <th>Вид изделия</th>
+            <th>Базовая цена (₽)</th>
+            <th>Срок (дней)</th>
+        </tr>
+        <tr><td>Платье простое</td><td>от 3000</td><td>5-7</td></tr>
+        <tr><td>Платье сложное (вечернее/свадебное)</td><td>от 8000</td><td>10-14</td></tr>
+        <tr><td>Брюки/юбка</td><td>от 2500</td><td>5-7</td></tr>
+        <tr><td>Рубашка/блуза</td><td>от 2000</td><td>5-7</td></tr>
+        <tr><td>Пальто/куртка</td><td>от 6000</td><td>10-14</td></tr>
+    </table>
+</div>
+
+<div class="price-card">
+    <h3> Ремонт одежды</h3>
+    <table style="width:100%; margin-top: 10px;">
+        <tr style="background: #2c3e50; color: white;">
+            <th>Вид работы</th>
+            <th>Базовая цена (₽)</th>
+            <th>Срок (дней)</th>
+        </tr>
+        <tr><td>Укорачивание брюк/юбки</td><td>от 500</td><td>1-2</td></tr>
+        <tr><td>Ушив/расшив по бокам</td><td>от 700</td><td>2-3</td></tr>
+        <tr><td>Замена молнии</td><td>от 400</td><td>1-2</td></tr>
+        <tr><td>Штопка/заплатка</td><td>от 300</td><td>1-2</td></tr>
+        <tr><td>Перелицовка воротника</td><td>от 600</td><td>2-3</td></tr>
+    </table>
+</div>
+
+<div class="price-card">
+    <h3> Подгонка по фигуре</h3>
+    <table style="width:100%; margin-top: 10px;">
+        <tr style="background: #2c3e50; color: white;">
+            <th>Вид работы</th>
+            <th>Базовая цена (₽)</th>
+            <th>Срок (дней)</th>
+        </tr>
+        <tr><td>Примерка и подгонка</td><td>от 500</td><td>1-2</td></tr>
+        <tr><td>Сложная подгонка (корсет и т.д.)</td><td>от 1500</td><td>3-5</td></tr>
+        <tr><td>Усадка/растяжка изделия</td><td>от 400</td><td>1-2</td></tr>
+    </table>
+</div>
+
+<div style="background: #fff3cd; padding: 20px; border-radius: 12px; margin-top: 20px; text-align: center;">
+    <h3 style="color: #856404;"> Вы можете предложить свою цену!</h3>
+    <p>При оформлении заказа вы можете указать желаемую стоимость. Мастер рассмотрит ваше предложение.</p>
+    <p><strong>Важно:</strong> Предложенная цена не может быть ниже базовой расценки, указанной выше.</p>
+    <p>Окончательная стоимость согласовывается с мастером после оценки сложности работы и материалов.</p>
+</div>
+
+<div style="text-align: center; margin-top: 30px;">
+    {% if current_user.is_authenticated %}
+        <a href="/order/create" class="btn" style="background: #27ae60;"> Оформить заказ</a>
+    {% else %}
+        <a href="/register" class="btn" style="background: #27ae60;">Зарегистрироваться и оформить заказ</a>
+    {% endif %}
+</div>
+{% endblock %}

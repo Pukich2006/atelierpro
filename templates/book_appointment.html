@@ -1,0 +1,135 @@
+{% extends "base.html" %}
+
+{% block title %}Запись на примерку{% endblock %}
+
+{% block content %}
+<div style="max-width: 600px; margin: 0 auto;">
+    <h2> Запись на примерку</h2>
+    <p>Выберите удобную дату и время</p>
+
+    <form method="POST" id="appointmentForm">
+        <label><strong>Дата</strong></label>
+        <select name="appointment_date" id="date_select" required style="width:100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;">
+            <option value="">Выберите дату</option>
+            {% for date_info in available_dates %}
+            <option value="{{ date_info.date.strftime('%Y-%m-%d') }}" data-start="{{ date_info.start_time }}" data-end="{{ date_info.end_time }}">
+                {{ date_info.date.strftime('%d.%m.%Y') }}
+                ({{ date_info.start_time }} - {{ date_info.end_time }})
+            </option>
+            {% endfor %}
+        </select>
+
+        <label><strong>Время</strong></label>
+        <select name="appointment_time" id="time_select" required style="width:100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;">
+            <option value="">Сначала выберите дату</option>
+        </select>
+
+        <label><strong>Цель визита</strong></label>
+        <select name="purpose" required style="width:100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 5px;">
+            <option value="Первая примерка"> Первая примерка</option>
+            <option value="Повторная примерка"> Повторная примерка</option>
+            <option value="Снятие мерок"> Снятие мерок</option>
+            <option value="Выдача готового изделия"> Выдача готового изделия</option>
+            <option value="Консультация"> Консультация</option>
+            <option value="Ремонт"> Ремонт</option>
+        </select>
+
+        <div style="margin-top: 30px;">
+            <button type="submit" style="background: #27ae60; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">✅ Отправить заявку</button>
+            <a href="/dashboard/client" style="margin-left: 15px; color: #3498db;">Отмена</a>
+        </div>
+    </form>
+
+    <div style="margin-top: 30px; background: #f8f9fa; padding: 15px; border-radius: 10px;">
+        <p style="color: gray; font-size: 14px;">
+              <strong>Информация:</strong><br>
+            - После отправки заявки мастер подтвердит запись<br>
+            - Вы получите уведомление в чате<br>
+            - При опоздании более чем на 15 минут запись может быть отменена
+        </p>
+    </div>
+</div>
+
+<script>
+    // Функция генерации времени с интервалом 30 минут
+    function generateTimeSlots(startTime, endTime) {
+        const slots = [];
+
+        // Преобразуем время в минуты
+        function timeToMinutes(timeStr) {
+            const [hours, minutes] = timeStr.split(':').map(Number);
+            return hours * 60 + minutes;
+        }
+
+        // Преобразуем минуты в формат HH:MM
+        function minutesToTime(minutes) {
+            const hours = Math.floor(minutes / 60);
+            const mins = minutes % 60;
+            return `${String(hours).padStart(2, '0')}:${String(mins).padStart(2, '0')}`;
+        }
+
+        let startMinutes = timeToMinutes(startTime);
+        let endMinutes = timeToMinutes(endTime);
+
+        // Генерируем слоты каждые 30 минут
+        for (let time = startMinutes; time < endMinutes; time += 30) {
+            slots.push(minutesToTime(time));
+        }
+
+        return slots;
+    }
+
+    // Получаем элементы
+    const dateSelect = document.getElementById('date_select');
+    const timeSelect = document.getElementById('time_select');
+
+    // Обработчик изменения даты
+    dateSelect.addEventListener('change', function() {
+        const selectedOption = dateSelect.options[dateSelect.selectedIndex];
+
+        if (!selectedOption.value) {
+            timeSelect.innerHTML = '<option value="">Сначала выберите дату</option>';
+            return;
+        }
+
+        const startTime = selectedOption.getAttribute('data-start');
+        const endTime = selectedOption.getAttribute('data-end');
+
+        if (startTime && endTime) {
+            const slots = generateTimeSlots(startTime, endTime);
+
+            // Заполняем выпадающий список
+            timeSelect.innerHTML = '<option value="">Выберите время</option>';
+
+            slots.forEach(slot => {
+                const option = document.createElement('option');
+                option.value = slot;
+                option.textContent = slot;
+                timeSelect.appendChild(option);
+            });
+        } else {
+            timeSelect.innerHTML = '<option value="">Ошибка: нет данных о времени</option>';
+        }
+    });
+
+    // Проверка перед отправкой формы
+    document.getElementById('appointmentForm').addEventListener('submit', function(e) {
+        const date = dateSelect.value;
+        const time = timeSelect.value;
+
+        if (!date) {
+            alert('Пожалуйста, выберите дату');
+            e.preventDefault();
+            return false;
+        }
+
+        if (!time) {
+            alert('Пожалуйста, выберите время');
+            e.preventDefault();
+            return false;
+        }
+
+        return true;
+    });
+</script>
+{% endblock %}

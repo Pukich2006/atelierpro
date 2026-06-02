@@ -1,0 +1,48 @@
+{% extends "base.html" %}
+
+{% block title %}Чаты с клиентами{% endblock %}
+
+{% block content %}
+<h2>💬 Сообщения от клиентов</h2>
+
+<div style="margin: 20px 0;">
+    <a href="/dashboard/master" style="color: #3498db;">← Назад в панель мастера</a>
+</div>
+
+{% if clients %}
+    <div style="background: white; border-radius: 10px; overflow: hidden;">
+        {% for client in clients %}
+            <a href="/chat/client/{{ client.id }}" style="text-decoration: none; color: inherit;">
+                <div style="padding: 15px; border-bottom: 1px solid #eee; display: flex; align-items: center; justify-content: space-between; transition: background 0.3s;" onmouseover="this.style.background='#f8f9fa'" onmouseout="this.style.background='white'">
+                    <div style="display: flex; align-items: center; gap: 15px;">
+                        <div style="background: #3498db; width: 50px; height: 50px; border-radius: 50%; display: flex; align-items: center; justify-content: center; color: white; font-size: 20px;">
+                            👤
+                        </div>
+                        <div>
+                            <div style="font-weight: bold; font-size: 18px;">{{ client.name }}</div>
+                            <div style="color: gray; font-size: 14px;">{{ client.email }}</div>
+                            <div style="color: #666; font-size: 12px; margin-top: 5px;">
+                                {% if client.last_message %}
+                                    Последнее: {{ client.last_message[:50] }}
+                                {% else %}
+                                    Сообщений пока нет
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    <div style="text-align: right;">
+                        {% if client.last_message_time %}
+                            <div style="font-size: 12px; color: gray;">{{ client.last_message_time.strftime('%d.%m.%Y %H:%M') }}</div>
+                        {% endif %}
+                        <div style="margin-top: 5px;">→</div>
+                    </div>
+                </div>
+            </a>
+        {% endfor %}
+    </div>
+{% else %}
+    <div style="text-align: center; padding: 60px; background: white; border-radius: 10px;">
+        <p style="color: gray;">Нет зарегистрированных клиентов</p>
+    </div>
+{% endif %}
+{% endblock %}

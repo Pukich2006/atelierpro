@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Создать заказ{% endblock %}
+
+{% block content %}
+<div style="max-width: 700px; margin: 0 auto;">
+    <h2>📝 Создание нового заказа</h2>
+    <p style="color: gray; margin-bottom: 20px;">Заполните форму, и мастер свяжется с вами</p>
+
+    <form method="POST">
+        <label><strong>Тип услуги *</strong></label>
+        <select name="service" required>
+            <option value="">Выберите услугу</option>
+            <option value="Пошив одежды">👗 Пошив одежды</option>
+            <option value="Ремонт одежды">🔧 Ремонт одежды</option>
+            <option value="Подгонка по фигуре">📏 Подгонка по фигуре</option>
+            <option value="Изменение размера">📐 Изменение размера</option>
+            <option value="Индивидуальный заказ">✨ Индивидуальный заказ</option>
+        </select>
+
+        <label><strong>Описание работы *</strong></label>
+        <textarea name="description" rows="4" placeholder="Опишите подробно, что нужно сделать..." required></textarea>
+
+        <label><strong>Мерки (необязательно)</strong></label>
+        <textarea name="measurements" rows="3" placeholder="Обхват груди: __ см&#10;Обхват талии: __ см&#10;Обхват бёдер: __ см&#10;Длина рукава: __ см&#10;Длина изделия: __ см"></textarea>
+
+        <label><strong>Желаемый срок выполнения *</strong></label>
+        <input type="date" name="deadline" required>
+
+        <label><strong>Предполагаемая цена (₽)</strong></label>
+        <input type="number" name="total_price" placeholder="0" value="0">
+
+        <div style="margin-top: 30px;">
+            <button type="submit" style="background: #27ae60;">✅ Отправить заявку</button>
+            <a href="/dashboard/client" style="margin-left: 15px; color: #3498db;">Отмена</a>
+        </div>
+    </form>
+</div>
+
+<style>
+    label { display: block; margin-top: 20px; font-weight: bold; }
+    select, textarea, input { width: 100%; padding: 10px; margin-top: 5px; border: 1px solid #ddd; border-radius: 5px; }
+</style>
+{% endblock %}

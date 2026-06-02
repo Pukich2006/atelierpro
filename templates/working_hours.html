@@ -1,0 +1,44 @@
+{% extends "base.html" %}
+
+{% block title %}Настройка рабочего времени{% endblock %}
+
+{% block content %}
+<h2> Настройка рабочего времени</h2>
+<p>Установите дни и часы, когда вы работаете. Клиенты смогут записываться только в это время.</p>
+
+<form method="POST">
+    <div style="overflow-x: auto;">
+        <table style="width:100%; background: white; border-collapse: collapse;">
+            <thead>
+                <tr style="background: #2c3e50; color: white;">
+                    <th style="padding: 12px;">День</th>
+                    <th>Рабочий день</th>
+                    <th>Начало</th>
+                    <th>Конец</th>
+                 </tr>
+            </thead>
+            <tbody>
+                {% for day, day_name in days.items() %}
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 12px;"><strong>{{ day_name }}</strong></td>
+                    <td>
+                        <input type="checkbox" name="is_working_{{ day }}" {% if settings[day].is_working %}checked{% endif %}>
+                    </td>
+                    <td>
+                        <input type="time" name="start_time_{{ day }}" value="{{ settings[day].start_time }}" step="1800">
+                    </td>
+                    <td>
+                        <input type="time" name="end_time_{{ day }}" value="{{ settings[day].end_time }}" step="1800">
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+
+    <div style="margin-top: 20px;">
+        <button type="submit" style="background: #27ae60; color: white; padding: 10px 20px; border: none; border-radius: 5px; cursor: pointer;">💾 Сохранить настройки</button>
+        <a href="/dashboard/master" style="margin-left: 15px; color: #3498db;">Назад</a>
+    </div>
+</form>
+{% endblock %}

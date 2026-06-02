@@ -1,0 +1,76 @@
+{% extends "base.html" %}
+
+{% block title %}Управление записями{% endblock %}
+
+{% block content %}
+<h2> Управление записями клиентов</h2>
+
+<div style="margin: 20px 0; display: flex; gap: 15px; flex-wrap: wrap;">
+    <a href="/settings/working-hours" style="background: #3498db; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">⚙️ Настроить рабочие часы</a>
+    <a href="/dashboard/master" style="color: #3498db;">← Назад в панель</a>
+</div>
+
+{% if pending_count > 0 %}
+    <div style="background: #fff3cd; padding: 10px; border-radius: 5px; margin-bottom: 20px;">
+        ⚡ У вас <strong>{{ pending_count }}</strong> неподтверждённых записей!
+    </div>
+{% endif %}
+
+{% if appointments %}
+    <div style="overflow-x: auto;">
+        <table style="width:100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden;">
+            <thead>
+                <tr style="background: #2c3e50; color: white;">
+                    <th style="padding: 12px;">ID</th>
+                    <th>Клиент</th>
+                    <th>Телефон</th>
+                    <th>Дата</th>
+                    <th>Время</th>
+                    <th>Цель</th>
+                    <th>Статус</th>
+                    <th>Действие</th>
+                 </tr>
+            </thead>
+            <tbody>
+                {% for apt in appointments %}
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 10px;">#{{ apt.id }}</td>
+                    <td>{{ apt.client.name }}</td>
+                    <td>{{ apt.client.phone }}</td>
+                    <td>{{ apt.appointment_date.strftime('%d.%m.%Y') }}</td>
+                    <td>{{ apt.appointment_time }}</td>
+                    <td>{{ apt.purpose }}</td>
+                    <td>
+                        {% if apt.status == 'pending' %}
+                            <span style="background: #f39c12; color: white; padding: 5px 10px; border-radius: 20px;"> Ожидает</span>
+                        {% elif apt.status == 'confirmed' %}
+                            <span style="background: #27ae60; color: white; padding: 5px 10px; border-radius: 20px;"> Подтверждена</span>
+                        {% elif apt.status == 'cancelled' %}
+                            <span style="background: #e74c3c; color: white; padding: 5px 10px; border-radius: 20px;"> Отменена</span>
+                        {% elif apt.status == 'completed' %}
+                            <span style="background: #3498db; color: white; padding: 5px 10px; border-radius: 20px;"> Выполнена</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        <form method="POST" action="/appointment/status/{{ apt.id }}" style="display: flex; gap: 5px; flex-wrap: wrap;">
+                            <select name="status" style="padding: 5px;">
+                                <option value="pending" {% if apt.status == 'pending' %}selected{% endif %}>⏳ Ожидает</option>
+                                <option value="confirmed" {% if apt.status == 'confirmed' %}selected{% endif %}>✅ Подтвердить</option>
+                                <option value="completed" {% if apt.status == 'completed' %}selected{% endif %}>✓ Выполнена</option>
+                                <option value="cancelled" {% if apt.status == 'cancelled' %}selected{% endif %}>❌ Отменить</option>
+                            </select>
+                            <button type="submit" style="padding: 5px 10px; background: #3498db; border: none; border-radius: 5px; color: white;">Изменить</button>
+                        </form>
+                        <a href="/appointment/cancel/{{ apt.id }}" onclick="return confirm('Отменить запись?')" style="color: #e74c3c; font-size: 12px; display: inline-block; margin-top: 5px;">Отмена</a>
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div style="text-align: center; padding: 60px; background: white; border-radius: 10px;">
+        <p style="color: gray;">Нет записей от клиентов</p>
+    </div>
+{% endif %}
+{% endblock %}

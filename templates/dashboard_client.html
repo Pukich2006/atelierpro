@@ -1,0 +1,78 @@
+{% extends "base.html" %}
+
+{% block title %}Мои заказы{% endblock %}
+
+{% block sidebar %}
+<div class="sidebar">
+    <div class="sidebar-menu">
+        <div class="sidebar-title">Меню клиента</div>
+        <a href="/chat" class="sidebar-btn">
+            Чат с мастером
+            {% if unread_count > 0 %}<span class="badge">{{ unread_count }}</span>{% endif %}
+        </a>
+        <a href="/my-appointments" class="sidebar-btn green">
+            Мои записи
+        </a>
+        <a href="/appointment/book" class="sidebar-btn orange">
+            Новая запись
+        </a>
+        <a href="/order/create" class="sidebar-btn purple">
+            Новый заказ
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<h2>Мои заказы</h2>
+<p>Здравствуйте, {{ user.name }}!</p>
+
+<h3>История заказов</h3>
+{% if orders %}
+    <div style="overflow-x: auto;">
+        <table>
+            <thead>
+                <tr>
+                    <th>№</th>
+                    <th>Услуга</th>
+                    <th>Описание</th>
+                    <th>Статус</th>
+                    <th>Срок</th>
+                    <th>Цена</th>
+                </tr>
+            </thead>
+            <tbody>
+                {% for order in orders %}
+                <tr>
+                    <td>#{{ order.id }}</td>
+                    <td>{{ order.service }}</td>
+                    <td>{{ order.description[:50] }}{% if order.description|length > 50 %}...{% endif %}</td>
+                    <td>
+                        {% if order.status == 'new' %}
+                            <span style="background: #e74c3c; color: white; padding: 5px 10px; border-radius: 20px;">Ожидает</span>
+                        {% elif order.status == 'work' %}
+                            <span style="background: #e67e22; color: white; padding: 5px 10px; border-radius: 20px;">В работе</span>
+                        {% elif order.status == 'fitting' %}
+                            <span style="background: #3498db; color: white; padding: 5px 10px; border-radius: 20px;">На примерке</span>
+                        {% elif order.status == 'ready' %}
+                            <span style="background: #27ae60; color: white; padding: 5px 10px; border-radius: 20px;">Готов к выдаче</span>
+                        {% elif order.status == 'completed' %}
+                            <span style="background: #2c3e50; color: white; padding: 5px 10px; border-radius: 20px;">Выполнен</span>
+                        {% else %}
+                            <span style="background: gray; color: white; padding: 5px 10px; border-radius: 20px;">{{ order.status }}</span>
+                        {% endif %}
+                    </td>
+                    <td>{{ order.deadline }}</td>
+                    <td>{{ order.total_price }} ₽</td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div style="text-align: center; padding: 60px; background: white; border-radius: 10px;">
+        <p style="color: gray; font-size: 18px;">У вас пока нет заказов</p>
+        <a href="/order/create" style="background: #27ae60; color: white; padding: 10px 25px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 15px;">Создать первый заказ</a>
+    </div>
+{% endif %}
+{% endblock %}

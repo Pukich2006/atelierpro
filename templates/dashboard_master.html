@@ -1,0 +1,112 @@
+{% extends "base.html" %}
+
+{% block title %}Панель мастера{% endblock %}
+
+{% block sidebar %}
+<div class="sidebar">
+    <div class="sidebar-menu">
+        <div class="sidebar-title">Меню мастера</div>
+        <a href="/chat" class="sidebar-btn">
+            Чаты
+            {% if unread_count > 0 %}<span class="badge">{{ unread_count }}</span>{% endif %}
+        </a>
+        <a href="/all-appointments" class="sidebar-btn orange">
+            Записи клиентов
+            {% if pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}
+        </a>
+        <a href="/settings/working-hours" class="sidebar-btn purple">
+            Рабочие часы
+        </a>
+    </div>
+</div>
+{% endblock %}
+
+{% block content %}
+<h2>Панель управления мастера</h2>
+<p>Здравствуйте, {{ user.name }}!</p>
+
+<!-- СТАТИСТИКА -->
+<div style="display: flex; gap: 15px; margin: 30px 0; flex-wrap: wrap;">
+    <div style="flex:1; background: #f8f9fa; padding: 20px; border-radius: 10px; text-align: center;">
+        <h3>Всего</h3>
+        <p style="font-size: 32px; color: #3498db;">{{ total_orders }}</p>
+    </div>
+    <div style="flex:1; background: #fff3cd; padding: 20px; border-radius: 10px; text-align: center;">
+        <h3>Новые</h3>
+        <p style="font-size: 32px; color: #e74c3c;">{{ new_orders }}</p>
+    </div>
+    <div style="flex:1; background: #d1ecf1; padding: 20px; border-radius: 10px; text-align: center;">
+        <h3>В работе</h3>
+        <p style="font-size: 32px; color: #e67e22;">{{ work_orders }}</p>
+    </div>
+    <div style="flex:1; background: #d4edda; padding: 20px; border-radius: 10px; text-align: center;">
+        <h3>Готовы</h3>
+        <p style="font-size: 32px; color: #27ae60;">{{ ready_orders }}</p>
+    </div>
+    <div style="flex:1; background: #f8f9fa; padding: 20px; border-radius: 10px; text-align: center;">
+        <h3>Клиентов</h3>
+        <p style="font-size: 32px; color: #8e44ad;">{{ total_clients }}</p>
+    </div>
+</div>
+
+<!-- ВСЕ ЗАКАЗЫ -->
+<h3>Все заказы</h3>
+<div style="overflow-x: auto;">
+    <table>
+        <thead>
+            <tr>
+                <th>ID</th>
+                <th>Клиент</th>
+                <th>Услуга</th>
+                <th>Статус</th>
+                <th>Срок</th>
+                <th>Цена</th>
+                <th>Действие</th>
+            </tr>
+        </thead>
+        <tbody>
+            {% for order in orders %}
+            <tr>
+                <td>#{{ order.id }}</td>
+                <td>{{ order.client.name }}</td>
+                <td>{{ order.service }}</td>
+                <td>
+                    {% if order.status == 'new' %}
+                        <span style="background: #e74c3c; color: white; padding: 5px 10px; border-radius: 20px;">Новый</span>
+                    {% elif order.status == 'work' %}
+                        <span style="background: #e67e22; color: white; padding: 5px 10px; border-radius: 20px;">В работе</span>
+                    {% elif order.status == 'fitting' %}
+                        <span style="background: #3498db; color: white; padding: 5px 10px; border-radius: 20px;">Примерка</span>
+                    {% elif order.status == 'ready' %}
+                        <span style="background: #27ae60; color: white; padding: 5px 10px; border-radius: 20px;">Готов</span>
+                    {% elif order.status == 'completed' %}
+                        <span style="background: #2c3e50; color: white; padding: 5px 10px; border-radius: 20px;">Выполнен</span>
+                    {% else %}
+                        <span style="background: gray; color: white; padding: 5px 10px; border-radius: 20px;">{{ order.status }}</span>
+                    {% endif %}
+                </td>
+                <td>{{ order.deadline }}</td>
+                <td>{{ order.total_price }} ₽</td>
+                <td>
+                    <form method="POST" action="/order/status/{{ order.id }}" style="display: flex; gap: 5px;">
+                        <select name="status" style="padding: 5px;">
+                            <option value="new" {% if order.status == 'new' %}selected{% endif %}>Новый</option>
+                            <option value="work" {% if order.status == 'work' %}selected{% endif %}>В работе</option>
+                            <option value="fitting" {% if order.status == 'fitting' %}selected{% endif %}>Примерка</option>
+                            <option value="ready" {% if order.status == 'ready' %}selected{% endif %}>Готов</option>
+                            <option value="completed" {% if order.status == 'completed' %}selected{% endif %}>Выполнен</option>
+                            <option value="cancelled" {% if order.status == 'cancelled' %}selected{% endif %}>Отменён</option>
+                        </select>
+                        <button type="submit" style="padding: 5px 10px;">Изменить</button>
+                    </form>
+                </td>
+            </tr>
+            {% else %}
+            <tr>
+                <td colspan="7" style="text-align: center; padding: 40px; color: gray;">Пока нет заказов</td>
+            </tr>
+            {% endfor %}
+        </tbody>
+    </table>
+</div>
+{% endblock %}

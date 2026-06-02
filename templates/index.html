@@ -1,0 +1,55 @@
+{% extends "base.html" %}
+
+{% block title %}Главная{% endblock %}
+
+{% block content %}
+<div style="text-align: center; padding: 20px;">
+    <h1>Добро пожаловать в AtelierPro</h1>
+    <p style="font-size: 18px; margin: 20px 0;">Профессиональное ателье с онлайн-записью и отслеживанием заказов</p>
+
+    <div style="display: flex; gap: 20px; justify-content: center; margin: 30px 0;">
+        <a href="/prices" style="background: #e67e22; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px;">💰 Расценки на услуги</a>
+    </div>
+
+    <div style="display: flex; gap: 20px; margin-top: 40px; flex-wrap: wrap;">
+        <div style="flex:1; background: #f8f9fa; padding: 25px; border-radius: 12px;">
+            <h3>Пошив одежды</h3>
+            <p>Индивидуальный пошив платьев, костюмов, рубашек. Учтем все ваши пожелания.</p>
+        </div>
+        <div style="flex:1; background: #f8f9fa; padding: 25px; border-radius: 12px;">
+            <h3>Ремонт</h3>
+            <p>Качественный ремонт любой сложности. Быстро и аккуратно.</p>
+        </div>
+        <div style="flex:1; background: #f8f9fa; padding: 25px; border-radius: 12px;">
+            <h3>Примерка</h3>
+            <p>Удобная онлайн-запись на примерку. Подгонка по фигуре.</p>
+        </div>
+    </div>
+
+    <div style="margin-top: 40px; background: #2c3e50; color: white; padding: 25px; border-radius: 12px;">
+        <h3>Почему выбирают нас?</h3>
+        <div style="display: flex; gap: 20px; margin-top: 20px; flex-wrap: wrap;">
+            <div style="flex:1;">✓ Индивидуальный подход</div>
+            <div style="flex:1;">✓ Качественные материалы</div>
+            <div style="flex:1;">✓ Соблюдение сроков</div>
+            <div style="flex:1;">✓ Доступные цены</div>
+        </div>
+    </div>
+
+    {% if not current_user.is_authenticated %}
+    <div style="margin-top: 40px;">
+        <a href="/register" style="background: #27ae60; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px; margin-right: 15px;">Зарегистрироваться</a>
+        <a href="/login" style="background: #3498db; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px;">Войти в кабинет</a>
+    </div>
+    {% else %}
+    <div style="margin-top: 40px;">
+        <p>Вы уже авторизованы как <strong>{{ current_user.name }}</strong></p>
+        {% if current_user.role == 'master' %}
+            <a href="/dashboard/master" style="background: #3498db; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px;">Перейти в панель мастера</a>
+        {% else %}
+            <a href="/dashboard/client" style="background: #3498db; color: white; padding: 12px 30px; text-decoration: none; border-radius: 8px;">Перейти в личный кабинет</a>
+        {% endif %}
+    </div>
+    {% endif %}
+</div>
+{% endblock %}

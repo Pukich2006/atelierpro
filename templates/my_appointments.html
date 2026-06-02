@@ -1,0 +1,58 @@
+{% extends "base.html" %}
+
+{% block title %}Мои записи{% endblock %}
+
+{% block content %}
+<h2> Мои записи на примерку</h2>
+
+<div style="margin: 20px 0;">
+    <a href="/appointment/book" style="background: #27ae60; color: white; padding: 10px 20px; text-decoration: none; border-radius: 5px;">➕ Новая запись</a>
+    <a href="/dashboard/client" style="margin-left: 15px; color: #3498db;">← Назад</a>
+</div>
+
+{% if appointments %}
+    <div style="overflow-x: auto;">
+        <table style="width:100%; border-collapse: collapse; background: white; border-radius: 10px; overflow: hidden;">
+            <thead>
+                <tr style="background: #2c3e50; color: white;">
+                    <th style="padding: 12px;">Дата</th>
+                    <th>Время</th>
+                    <th>Цель</th>
+                    <th>Статус</th>
+                    <th>Действие</th>
+                 </tr>
+            </thead>
+            <tbody>
+                {% for apt in appointments %}
+                <tr style="border-bottom: 1px solid #ddd;">
+                    <td style="padding: 10px;">{{ apt.appointment_date.strftime('%d.%m.%Y') }}</td>
+                    <td>{{ apt.appointment_time }}</td>
+                    <td>{{ apt.purpose }}</td>
+                    <td>
+                        {% if apt.status == 'pending' %}
+                            <span style="background: #f39c12; color: white; padding: 5px 10px; border-radius: 20px;">⏳ Ожидает</span>
+                        {% elif apt.status == 'confirmed' %}
+                            <span style="background: #27ae60; color: white; padding: 5px 10px; border-radius: 20px;">✅ Подтверждена</span>
+                        {% elif apt.status == 'cancelled' %}
+                            <span style="background: #e74c3c; color: white; padding: 5px 10px; border-radius: 20px;">❌ Отменена</span>
+                        {% elif apt.status == 'completed' %}
+                            <span style="background: #3498db; color: white; padding: 5px 10px; border-radius: 20px;">✓ Выполнена</span>
+                        {% endif %}
+                    </td>
+                    <td>
+                        {% if apt.status == 'pending' or apt.status == 'confirmed' %}
+                            <a href="/appointment/cancel/{{ apt.id }}" onclick="return confirm('Отменить запись?')" style="color: #e74c3c;">Отменить</a>
+                        {% endif %}
+                    </td>
+                </tr>
+                {% endfor %}
+            </tbody>
+        </table>
+    </div>
+{% else %}
+    <div style="text-align: center; padding: 60px; background: white; border-radius: 10px;">
+        <p style="color: gray;">У вас пока нет записей</p>
+        <a href="/appointment/book" style="background: #27ae60; color: white; padding: 10px 25px; text-decoration: none; border-radius: 5px; display: inline-block; margin-top: 15px;">📅 Записаться на примерку</a>
+    </div>
+{% endif %}
+{% endblock %}
