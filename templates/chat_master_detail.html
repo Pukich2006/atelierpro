@@ -4,7 +4,7 @@
 
 {% block content %}
 <div style="max-width: 800px; margin: 0 auto;">
-    <h2>💬 Чат с {{ client.name }}</h2>
+    <h2>Чат с {{ client.name }}</h2>
 
     <div style="margin-bottom: 15px;">
         <a href="/chat">← Назад к списку чатов</a>
@@ -36,29 +36,22 @@
         {% endfor %}
     </div>
 
-    <!-- Форма отправки -->
-    <form method="POST" action="/chat/send/{{ client.id }}" onsubmit="return validateForm()">
+    <!-- ФОРМА ОТПРАВКИ СООБЩЕНИЙ -->
+    <form method="POST" action="/chat/send/{{ client.id }}">
         <div style="display: flex; gap: 10px;">
-            <input type="text" name="message" id="message" placeholder="Введите сообщение..." style="flex: 1;" required>
-            <button type="submit" style="background: #27ae60;">📤 Отправить</button>
+            <input type="text" name="message" id="messageInput" placeholder="Введите сообщение..." style="flex: 1; padding: 10px; border: 1px solid #ddd; border-radius: 8px;" required>
+            <button type="submit" style="background: #27ae60; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer;">Отправить</button>
         </div>
     </form>
 </div>
 
 <script>
     var chatBox = document.getElementById('chat-box');
-    chatBox.scrollTop = chatBox.scrollHeight;
-
-    function validateForm() {
-        var msg = document.getElementById('message').value.trim();
-        if (msg === '') {
-            alert('Введите сообщение');
-            return false;
-        }
-        return true;
+    if (chatBox) {
+        chatBox.scrollTop = chatBox.scrollHeight;
     }
 
-    // Автообновление каждые 3 секунды (для мгновенных сообщений)
+    // Автообновление каждые 3 секунды
     setTimeout(function() {
         location.reload();
     }, 3000);
