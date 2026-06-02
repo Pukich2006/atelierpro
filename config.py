@@ -8,7 +8,7 @@ class Config:
     SECRET_KEY = os.environ.get('SECRET_KEY', 'dev-secret-key-2024')
 
     # Для локальной разработки и Render
-    database_url = os.environ.get('DATABASE_URL', 'postgresql://postgres:password@localhost:5432/atelierpro')
+    database_url = os.environ.get('DATABASE_URL', 'postgresql://postgres:ya123@localhost:5432/atelierpro')
 
     # Render использует postgres://, а SQLAlchemy требует postgresql://
     if database_url and database_url.startswith('postgres://'):
