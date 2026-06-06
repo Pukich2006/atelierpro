@@ -1,6 +1,6 @@
-from flask import Blueprint, render_template, request, redirect, url_for, flash
+from flask import Blueprint, render_template, request, redirect, url_for, flash, Response
 from flask_login import login_required, current_user
-from models import db, Order, User, Message, WorkingHours, Appointment
+from models import db, Order, User, Message, WorkingHours, Appointment, Transaction
 from datetime import datetime, date, timedelta
 
 main_bp = Blueprint('main', __name__)
@@ -380,6 +380,129 @@ def cancel_appointment(appointment_id):
 
 # ==================== СТРАНИЦА РАСЦЕНОК ====================
 
+# ==================== ФИНАНСОВЫЙ МОДУЛЬ ====================
+
+@main_bp.route('/finance')
+@login_required
+def finance():
+    if current_user.role != 'master':
+        flash('Доступ запрещён', 'danger')
+        return redirect(url_for('main.dashboard_client'))
+
+    date_from = request.args.get('date_from')
+    date_to = request.args.get('date_to')
+
+    query = Transaction.query
+
+    from datetime import datetime
+    if date_from:
+        query = query.filter(Transaction.transaction_date >= datetime.strptime(date_from, '%Y-%m-%d').date())
+    if date_to:
+        query = query.filter(Transaction.transaction_date <= datetime.strptime(date_to, '%Y-%m-%d').date())
+
+    income = query.filter_by(type='income').all()
+    expense = query.filter_by(type='expense').all()
+
+    total_income = sum(t.amount for t in income)
+    total_expense = sum(t.amount for t in expense)
+    profit = total_income - total_expense
+
+    from sqlalchemy import func
+
+    income_by_category = db.session.query(
+        Transaction.category,
+        func.sum(Transaction.amount).label('total')
+    ).filter_by(type='income')
+
+    expense_by_category = db.session.query(
+        Transaction.category,
+        func.sum(Transaction.amount).label('total')
+    ).filter_by(type='expense')
+
+    if date_from:
+        income_by_category = income_by_category.filter(
+            Transaction.transaction_date >= datetime.strptime(date_from, '%Y-%m-%d').date())
+        expense_by_category = expense_by_category.filter(
+            Transaction.transaction_date >= datetime.strptime(date_from, '%Y-%m-%d').date())
+    if date_to:
+        income_by_category = income_by_category.filter(
+            Transaction.transaction_date <= datetime.strptime(date_to, '%Y-%m-%d').date())
+        expense_by_category = expense_by_category.filter(
+            Transaction.transaction_date <= datetime.strptime(date_to, '%Y-%m-%d').date())
+
+    income_by_category = income_by_category.group_by(Transaction.category).all()
+    expense_by_category = expense_by_category.group_by(Transaction.category).all()
+
+    return render_template('finance.html',
+                           user=current_user,
+                           total_income=total_income,
+                           total_expense=total_expense,
+                           profit=profit,
+                           income_by_category=income_by_category,
+                           expense_by_category=expense_by_category,
+                           date_from=date_from,
+                           date_to=date_to)
+
+
+@main_bp.route('/finance/export')
+@login_required
+def export_finance():
+    if current_user.role != 'master':
+        flash('Доступ запрещён', 'danger')
+        return redirect(url_for('main.dashboard_client'))
+
+    import csv
+    from io import StringIO
+    from flask import Response
+    from datetime import date, timedelta
+
+    period = request.args.get('period', 'today')
+    date_from = request.args.get('date_from')
+    date_to = request.args.get('date_to')
+
+    query = Transaction.query
+
+    today = date.today()
+
+    if period == 'today':
+        date_from = today
+        date_to = today
+        query = query.filter(Transaction.transaction_date == today)
+    elif period == 'week':
+        date_from = today - timedelta(days=7)
+        date_to = today
+        query = query.filter(Transaction.transaction_date >= date_from)
+    elif period == 'month':
+        date_from = today - timedelta(days=30)
+        date_to = today
+        query = query.filter(Transaction.transaction_date >= date_from)
+    elif period == 'year':
+        date_from = today - timedelta(days=365)
+        date_to = today
+        query = query.filter(Transaction.transaction_date >= date_from)
+    elif period == 'custom' and date_from and date_to:
+        from datetime import datetime
+        date_from = datetime.strptime(date_from, '%Y-%m-%d').date()
+        date_to = datetime.strptime(date_to, '%Y-%m-%d').date()
+        query = query.filter(Transaction.transaction_date >= date_from,
+                             Transaction.transaction_date <= date_to)
+
+    transactions = query.all()
+
+    si = StringIO()
+    cw = csv.writer(si)
+    cw.writerow(['ID', 'Тип', 'Категория', 'Сумма', 'Описание', 'Дата', 'ID заказа'])
+
+    for t in transactions:
+        cw.writerow([t.id, 'Доход' if t.type == 'income' else 'Расход',
+                     t.category or '-', t.amount, t.description or '-',
+                     t.transaction_date, t.order_id or '-'])
+
+    output = si.getvalue().encode('utf-8-sig')
+
+    return Response(output,
+                    mimetype='text/csv',
+                    headers={'Content-Disposition': f'attachment; filename=finance_report_{period}.csv'})
 @main_bp.route('/prices')
 def prices():
     return render_template('prices.html')
