@@ -76,14 +76,4 @@ class Appointment(db.Model):
 
     client = db.relationship('User', backref='appointments', foreign_keys=[client_id])
 
-    class Transaction(db.Model):
-        __tablename__ = 'transactions'
 
-        id = db.Column(db.Integer, primary_key=True)
-        order_id = db.Column(db.Integer, db.ForeignKey('orders.id'), nullable=True)
-        amount = db.Column(db.Numeric(10, 2), nullable=False)
-        type = db.Column(db.String(10), nullable=False)
-        category = db.Column(db.String(100), nullable=True)
-        description = db.Column(db.Text, nullable=True)
-        transaction_date = db.Column(db.Date, nullable=False)
-        created_at = db.Column(db.DateTime, default=datetime.utcnow)

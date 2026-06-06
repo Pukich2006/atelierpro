@@ -1,7 +1,9 @@
 from flask import Blueprint, render_template, request, redirect, url_for, flash, Response
 from flask_login import login_required, current_user
-from models import db, Order, User, Message, WorkingHours, Appointment, Transaction
+from models import db, Order, User, Message, WorkingHours, Appointment
 from datetime import datetime, date, timedelta
+import csv
+from io import StringIO
 
 main_bp = Blueprint('main', __name__)
 
@@ -380,7 +382,12 @@ def cancel_appointment(appointment_id):
 
 # ==================== СТРАНИЦА РАСЦЕНОК ====================
 
-# ==================== ФИНАНСОВЫЙ МОДУЛЬ ====================
+@main_bp.route('/prices')
+def prices():
+    return render_template('prices.html')
+
+
+# ==================== ФИНАНСОВЫЙ МОДУЛЬ (без БД) ====================
 
 @main_bp.route('/finance')
 @login_required
@@ -389,49 +396,23 @@ def finance():
         flash('Доступ запрещён', 'danger')
         return redirect(url_for('main.dashboard_client'))
 
-    date_from = request.args.get('date_from')
-    date_to = request.args.get('date_to')
-
-    query = Transaction.query
-
-    from datetime import datetime
-    if date_from:
-        query = query.filter(Transaction.transaction_date >= datetime.strptime(date_from, '%Y-%m-%d').date())
-    if date_to:
-        query = query.filter(Transaction.transaction_date <= datetime.strptime(date_to, '%Y-%m-%d').date())
-
-    income = query.filter_by(type='income').all()
-    expense = query.filter_by(type='expense').all()
-
-    total_income = sum(t.amount for t in income)
-    total_expense = sum(t.amount for t in expense)
+    # Статические данные для демонстрации
+    total_income = 125000
+    total_expense = 45000
     profit = total_income - total_expense
 
-    from sqlalchemy import func
+    income_by_category = [
+        {'category': 'Пошив одежды', 'total': 80000},
+        {'category': 'Ремонт одежды', 'total': 30000},
+        {'category': 'Подгонка по фигуре', 'total': 15000},
+    ]
 
-    income_by_category = db.session.query(
-        Transaction.category,
-        func.sum(Transaction.amount).label('total')
-    ).filter_by(type='income')
-
-    expense_by_category = db.session.query(
-        Transaction.category,
-        func.sum(Transaction.amount).label('total')
-    ).filter_by(type='expense')
-
-    if date_from:
-        income_by_category = income_by_category.filter(
-            Transaction.transaction_date >= datetime.strptime(date_from, '%Y-%m-%d').date())
-        expense_by_category = expense_by_category.filter(
-            Transaction.transaction_date >= datetime.strptime(date_from, '%Y-%m-%d').date())
-    if date_to:
-        income_by_category = income_by_category.filter(
-            Transaction.transaction_date <= datetime.strptime(date_to, '%Y-%m-%d').date())
-        expense_by_category = expense_by_category.filter(
-            Transaction.transaction_date <= datetime.strptime(date_to, '%Y-%m-%d').date())
-
-    income_by_category = income_by_category.group_by(Transaction.category).all()
-    expense_by_category = expense_by_category.group_by(Transaction.category).all()
+    expense_by_category = [
+        {'category': 'Материалы (ткань, нитки)', 'total': 20000},
+        {'category': 'Фурнитура', 'total': 5000},
+        {'category': 'Аренда', 'total': 15000},
+        {'category': 'Прочие расходы', 'total': 5000},
+    ]
 
     return render_template('finance.html',
                            user=current_user,
@@ -440,8 +421,8 @@ def finance():
                            profit=profit,
                            income_by_category=income_by_category,
                            expense_by_category=expense_by_category,
-                           date_from=date_from,
-                           date_to=date_to)
+                           date_from=None,
+                           date_to=None)
 
 
 @main_bp.route('/finance/export')
@@ -451,58 +432,28 @@ def export_finance():
         flash('Доступ запрещён', 'danger')
         return redirect(url_for('main.dashboard_client'))
 
-    import csv
-    from io import StringIO
-    from flask import Response
-    from datetime import date, timedelta
-
-    period = request.args.get('period', 'today')
-    date_from = request.args.get('date_from')
-    date_to = request.args.get('date_to')
-
-    query = Transaction.query
-
-    today = date.today()
-
-    if period == 'today':
-        date_from = today
-        date_to = today
-        query = query.filter(Transaction.transaction_date == today)
-    elif period == 'week':
-        date_from = today - timedelta(days=7)
-        date_to = today
-        query = query.filter(Transaction.transaction_date >= date_from)
-    elif period == 'month':
-        date_from = today - timedelta(days=30)
-        date_to = today
-        query = query.filter(Transaction.transaction_date >= date_from)
-    elif period == 'year':
-        date_from = today - timedelta(days=365)
-        date_to = today
-        query = query.filter(Transaction.transaction_date >= date_from)
-    elif period == 'custom' and date_from and date_to:
-        from datetime import datetime
-        date_from = datetime.strptime(date_from, '%Y-%m-%d').date()
-        date_to = datetime.strptime(date_to, '%Y-%m-%d').date()
-        query = query.filter(Transaction.transaction_date >= date_from,
-                             Transaction.transaction_date <= date_to)
-
-    transactions = query.all()
+    transactions = [
+        {'id': 1, 'type': 'Доход', 'category': 'Пошив одежды', 'amount': 50000, 'description': 'Пошив платья',
+         'date': '2026-06-01', 'order_id': 1},
+        {'id': 2, 'type': 'Доход', 'category': 'Пошив одежды', 'amount': 30000, 'description': 'Пошив костюма',
+         'date': '2026-06-02', 'order_id': 2},
+        {'id': 3, 'type': 'Доход', 'category': 'Ремонт одежды', 'amount': 15000, 'description': 'Ремонт брюк',
+         'date': '2026-06-03', 'order_id': 3},
+        {'id': 4, 'type': 'Расход', 'category': 'Материалы', 'amount': 10000, 'description': 'Ткань',
+         'date': '2026-06-01', 'order_id': None},
+        {'id': 5, 'type': 'Расход', 'category': 'Фурнитура', 'amount': 5000, 'description': 'Молнии, пуговицы',
+         'date': '2026-06-02', 'order_id': None},
+    ]
 
     si = StringIO()
     cw = csv.writer(si)
     cw.writerow(['ID', 'Тип', 'Категория', 'Сумма', 'Описание', 'Дата', 'ID заказа'])
 
     for t in transactions:
-        cw.writerow([t.id, 'Доход' if t.type == 'income' else 'Расход',
-                     t.category or '-', t.amount, t.description or '-',
-                     t.transaction_date, t.order_id or '-'])
+        cw.writerow([t['id'], t['type'], t['category'], t['amount'], t['description'], t['date'], t['order_id'] or '-'])
 
     output = si.getvalue().encode('utf-8-sig')
 
     return Response(output,
                     mimetype='text/csv',
-                    headers={'Content-Disposition': f'attachment; filename=finance_report_{period}.csv'})
-@main_bp.route('/prices')
-def prices():
-    return render_template('prices.html')
+                    headers={'Content-Disposition': 'attachment; filename=finance_report.csv'})

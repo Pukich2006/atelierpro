@@ -20,7 +20,7 @@
         <h3>Доходы по категориям</h3>
         <ul>
             {% for cat in income_by_category %}
-                <li><strong>{{ cat.category or 'Без категории' }}:</strong> {{ cat.total }} ₽</li>
+                <li><strong>{{ cat.category }}:</strong> {{ cat.total }} ₽</li>
             {% else %}
                 <li>Нет данных</li>
             {% endfor %}
@@ -30,7 +30,7 @@
         <h3>Расходы по категориям</h3>
         <ul>
             {% for cat in expense_by_category %}
-                <li><strong>{{ cat.category or 'Без категории' }}:</strong> {{ cat.total }} ₽</li>
+                <li><strong>{{ cat.category }}:</strong> {{ cat.total }} ₽</li>
             {% else %}
                 <li>Нет данных</li>
             {% endfor %}
@@ -38,24 +38,10 @@
     </div>
 </div>
 
-<div style="background: white; padding: 20px; border-radius: 10px; margin-bottom: 20px;">
-    <h3>Фильтрация по датам</h3>
-    <form method="GET" action="/finance" style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <input type="date" name="date_from" value="{{ date_from }}" placeholder="Дата от">
-        <input type="date" name="date_to" value="{{ date_to }}" placeholder="Дата до">
-        <button type="submit" style="background: #3498db;">Применить фильтр</button>
-        <a href="/finance" style="background: #95a5a6; color: white; padding: 10px 15px; text-decoration: none; border-radius: 5px;">Сбросить</a>
-    </form>
-</div>
-
 <div style="background: white; padding: 20px; border-radius: 10px;">
     <h3>Выгрузка отчётов</h3>
     <div style="display: flex; gap: 10px; flex-wrap: wrap;">
-        <a href="/finance/export?period=today" class="btn">За сегодня</a>
-        <a href="/finance/export?period=week" class="btn">За неделю</a>
-        <a href="/finance/export?period=month" class="btn">За месяц</a>
-        <a href="/finance/export?period=year" class="btn">За год</a>
-        <a href="/finance/export?period=custom&date_from={{ date_from }}&date_to={{ date_to }}" class="btn">За выбранный период</a>
+        <a href="/finance/export" class="btn">Скачать отчёт CSV</a>
     </div>
 </div>
 
