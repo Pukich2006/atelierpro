@@ -12,10 +12,9 @@
             min-height: 100vh;
             overflow-x: hidden;
             cursor: default;
-            position: relative;
         }
 
-        /* ФОН С ИЗОБРАЖЕНИЕМ (ПАРАЛЛАКС) */
+        /* ФОН С ИЗОБРАЖЕНИЕМ */
         .parallax-bg {
             position: fixed;
             top: -10%;
@@ -31,7 +30,6 @@
             will-change: transform;
         }
 
-        /* Затемнение поверх фона */
         .dark-overlay {
             position: fixed;
             top: 0;
@@ -58,40 +56,13 @@
             gap: 20px;
         }
 
-        .user-info {
-            color: #2c3e50;
-            font-size: 14px;
-            font-weight: 500;
-        }
-
-        .top-btn {
-            background: #e74c3c;
-            color: white;
-            padding: 8px 16px;
-            border-radius: 8px;
-            text-decoration: none;
-            font-size: 14px;
-            transition: all 0.3s;
-        }
-
-        .top-btn:hover {
-            background: #c0392b;
-            transform: scale(1.02);
-        }
-
-        .top-btn.green {
-            background: #27ae60;
-        }
-        .top-btn.green:hover {
-            background: #1e8449;
-        }
-
-        .top-btn.blue {
-            background: #3498db;
-        }
-        .top-btn.blue:hover {
-            background: #2980b9;
-        }
+        .user-info { color: #2c3e50; font-size: 14px; font-weight: 500; }
+        .top-btn { background: #e74c3c; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 14px; transition: all 0.3s; }
+        .top-btn:hover { background: #c0392b; transform: scale(1.02); }
+        .top-btn.green { background: #27ae60; }
+        .top-btn.green:hover { background: #1e8449; }
+        .top-btn.blue { background: #3498db; }
+        .top-btn.blue:hover { background: #2980b9; }
 
         /* Главный контейнер */
         .main-wrapper {
@@ -143,39 +114,14 @@
             font-weight: 500;
         }
 
-        .sidebar-btn:hover {
-            background: #2980b9;
-            transform: translateX(5px);
-        }
-
-        .sidebar-btn.orange {
-            background: #e67e22;
-        }
-        .sidebar-btn.orange:hover {
-            background: #d35400;
-        }
-
-        .sidebar-btn.purple {
-            background: #8e44ad;
-        }
-        .sidebar-btn.purple:hover {
-            background: #71368a;
-        }
-
-        .sidebar-btn.green {
-            background: #27ae60;
-        }
-        .sidebar-btn.green:hover {
-            background: #1e8449;
-        }
-
-        .badge {
-            background: #e74c3c;
-            border-radius: 50%;
-            padding: 2px 8px;
-            margin-left: 8px;
-            font-size: 12px;
-        }
+        .sidebar-btn:hover { background: #2980b9; transform: translateX(5px); }
+        .sidebar-btn.orange { background: #e67e22; }
+        .sidebar-btn.orange:hover { background: #d35400; }
+        .sidebar-btn.purple { background: #8e44ad; }
+        .sidebar-btn.purple:hover { background: #71368a; }
+        .sidebar-btn.green { background: #27ae60; }
+        .sidebar-btn.green:hover { background: #1e8449; }
+        .badge { background: #e74c3c; border-radius: 50%; padding: 2px 8px; margin-left: 8px; font-size: 12px; }
 
         /* Основной контент */
         .main-content {
@@ -187,106 +133,37 @@
             border: 1px solid #e0e0e0;
         }
 
-        /* Сообщения */
         .flash { padding: 10px; margin-bottom: 20px; border-radius: 8px; }
         .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
         .danger { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
         .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
 
-        /* Кнопки */
-        button, .btn {
-            background: #3498db;
-            color: white;
-            padding: 10px 20px;
-            border: none;
-            border-radius: 8px;
-            cursor: pointer;
-            transition: all 0.3s;
-        }
-        button:hover, .btn:hover {
-            background: #2980b9;
-            transform: scale(1.02);
-        }
+        button, .btn { background: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
+        button:hover, .btn:hover { background: #2980b9; transform: scale(1.02); }
 
-        /* Формы */
-        input, textarea, select {
-            width: 100%;
-            padding: 10px;
-            margin: 10px 0;
-            border: 1px solid #ddd;
-            border-radius: 8px;
-            background: white;
-        }
+        input, textarea, select { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; background: white; }
 
-        /* Таблицы */
-        table {
-            width: 100%;
-            border-collapse: collapse;
-            background: white;
-            border-radius: 12px;
-            overflow: hidden;
-            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
-        }
-
-        th {
-            background: #2c3e50;
-            color: white;
-            padding: 12px;
-        }
-
-        td {
-            padding: 10px;
-            border-bottom: 1px solid #eee;
-        }
+        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
+        th { background: #2c3e50; color: white; padding: 12px; }
+        td { padding: 10px; border-bottom: 1px solid #eee; }
 
         h2 { color: #2c3e50; margin-bottom: 10px; }
         h3 { color: #34495e; margin: 20px 0 15px 0; }
 
-        /* Карточки */
-        .price-card {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 20px;
-            margin-bottom: 20px;
-            border: 1px solid #e0e0e0;
-        }
+        .price-card { background: #f8f9fa; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #e0e0e0; }
 
-        /* Статистика */
-        .stat-card {
-            background: #f8f9fa;
-            border-radius: 12px;
-            padding: 20px;
-            text-align: center;
-            border: 1px solid #e0e0e0;
-        }
-
-        /* Адаптация для мобильных */
         @media (max-width: 768px) {
-            .main-wrapper {
-                flex-direction: column;
-            }
-            .sidebar {
-                width: 100%;
-                position: static;
-            }
-            .sidebar-menu {
-                display: flex;
-                flex-wrap: wrap;
-                gap: 10px;
-            }
-            .sidebar-btn {
-                flex: 1;
-                min-width: 120px;
-            }
+            .main-wrapper { flex-direction: column; }
+            .sidebar { width: 100%; position: static; }
+            .sidebar-menu { display: flex; flex-wrap: wrap; gap: 10px; }
+            .sidebar-btn { flex: 1; min-width: 120px; }
         }
     </style>
 </head>
 <body>
-    <!-- ФОН С ИЗОБРАЖЕНИЕМ (ПАРАЛЛАКС) -->
     <div class="parallax-bg" id="parallaxBg"></div>
     <div class="dark-overlay"></div>
 
-    <!-- Верхняя панель -->
     <div class="top-bar">
         {% if current_user.is_authenticated %}
             <span class="user-info">{{ current_user.name }} ({{ current_user.role }})</span>
@@ -298,21 +175,14 @@
     </div>
 
     <div class="main-wrapper">
-        <!-- Боковое меню -->
         {% if current_user.is_authenticated %}
             {% if current_user.role == 'master' %}
                 <div class="sidebar">
                     <div class="sidebar-menu">
                         <div class="sidebar-title">Меню мастера</div>
                         <a href="/dashboard/master" class="sidebar-btn">Главная</a>
-                        <a href="/chat" class="sidebar-btn">
-                            Чаты
-                            {% if unread_count is defined and unread_count > 0 %}<span class="badge">{{ unread_count }}</span>{% endif %}
-                        </a>
-                        <a href="/all-appointments" class="sidebar-btn orange">
-                            Записи клиентов
-                            {% if pending_count is defined and pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}
-                        </a>
+                        <a href="/chat" class="sidebar-btn">Чаты {% if unread_count is defined and unread_count > 0 %}<span class="badge">{{ unread_count }}</span>{% endif %}</a>
+                        <a href="/all-appointments" class="sidebar-btn orange">Записи клиентов {% if pending_count is defined and pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}</a>
                         <a href="/settings/working-hours" class="sidebar-btn purple">Рабочие часы</a>
                         <a href="/finance" class="sidebar-btn" style="background: #f39c12;">Финансы</a>
                     </div>
@@ -322,10 +192,7 @@
                     <div class="sidebar-menu">
                         <div class="sidebar-title">Меню клиента</div>
                         <a href="/dashboard/client" class="sidebar-btn">Главная</a>
-                        <a href="/chat" class="sidebar-btn">
-                            Чат с мастером
-                            {% if unread_count is defined and unread_count > 0 %}<span class="badge">{{ unread_count }}</span>{% endif %}
-                        </a>
+                        <a href="/chat" class="sidebar-btn">Чат с мастером {% if unread_count is defined and unread_count > 0 %}<span class="badge">{{ unread_count }}</span>{% endif %}</a>
                         <a href="/my-appointments" class="sidebar-btn green">Мои записи</a>
                         <a href="/appointment/book" class="sidebar-btn orange">Новая запись</a>
                         <a href="/order/create" class="sidebar-btn purple">Новый заказ</a>
@@ -334,7 +201,6 @@
             {% endif %}
         {% endif %}
 
-        <!-- Основной контент -->
         <div class="main-content">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% for category, message in messages %}
@@ -346,36 +212,23 @@
     </div>
 
     <script>
-        // Параллакс-эффект
         (function() {
             const bg = document.getElementById('parallaxBg');
             if (!bg) return;
-
-            let mouseX = 0;
-            let mouseY = 0;
-            let currentX = 0;
-            let currentY = 0;
-
-            const speed = 0.04;
-            const maxMove = 5;
-
+            let mouseX = 0, mouseY = 0, currentX = 0, currentY = 0;
+            const speed = 0.04, maxMove = 5;
             document.addEventListener('mousemove', function(e) {
                 const xPercent = (e.clientX / window.innerWidth) - 0.5;
                 const yPercent = (e.clientY / window.innerHeight) - 0.5;
-
                 mouseX = xPercent * maxMove;
                 mouseY = yPercent * maxMove;
             });
-
             function animate() {
                 currentX += (mouseX - currentX) * speed;
                 currentY += (mouseY - currentY) * speed;
-
                 bg.style.transform = `translate(${currentX}%, ${currentY}%)`;
-
                 requestAnimationFrame(animate);
             }
-
             animate();
         })();
     </script>
