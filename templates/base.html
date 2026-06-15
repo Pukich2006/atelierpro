@@ -8,35 +8,36 @@
 
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: #0f0f1a;
+            background: #f5f0e8;
             min-height: 100vh;
             overflow-x: hidden;
             cursor: default;
         }
 
-        /* ФОН С ИЗОБРАЖЕНИЕМ */
+        /* ФОН СВЕТЛЫЙ С ИЗОБРАЖЕНИЕМ */
         .parallax-bg {
-            position: fixed;
-            top: -10%;
-            left: -10%;
-            width: 120%;
-            height: 120%;
-            z-index: -2;
-            background-image: url('https://images.pexels.com/photos/994517/pexels-photo-994517.jpeg?auto=compress&cs=tinysrgb&w=1600');
-            background-size: cover;
-            background-position: center;
-            filter: blur(6px) brightness(0.7);
-            transition: transform 0.05s ease-out;
-            will-change: transform;
-        }
-
-        .dark-overlay {
             position: fixed;
             top: 0;
             left: 0;
             width: 100%;
             height: 100%;
-            background: rgba(0, 0, 0, 0.3);
+            z-index: -2;
+            background-image: url('https://images.pexels.com/photos/2724749/pexels-photo-2724749.jpeg?auto=compress&cs=tinysrgb&w=1600');
+            background-size: cover;
+            background-position: center;
+            filter: brightness(1.05);
+            transition: transform 0.05s ease-out;
+            will-change: transform;
+        }
+
+        /* Лёгкое затемнение для читаемости */
+        .light-overlay {
+            position: fixed;
+            top: 0;
+            left: 0;
+            width: 100%;
+            height: 100%;
+            background: rgba(245, 240, 232, 0.6);
             z-index: -1;
         }
 
@@ -47,8 +48,8 @@
             right: 0;
             left: 0;
             z-index: 100;
-            background: rgba(255, 255, 255, 0.95);
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            background: rgba(255, 252, 245, 0.95);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.05);
             padding: 12px 30px;
             display: flex;
             justify-content: flex-end;
@@ -56,13 +57,41 @@
             gap: 20px;
         }
 
-        .user-info { color: #2c3e50; font-size: 14px; font-weight: 500; }
-        .top-btn { background: #e74c3c; color: white; padding: 8px 16px; border-radius: 8px; text-decoration: none; font-size: 14px; transition: all 0.3s; }
-        .top-btn:hover { background: #c0392b; transform: scale(1.02); }
-        .top-btn.green { background: #27ae60; }
-        .top-btn.green:hover { background: #1e8449; }
-        .top-btn.blue { background: #3498db; }
-        .top-btn.blue:hover { background: #2980b9; }
+        .user-info {
+            color: #5a4a3a;
+            font-size: 14px;
+            font-weight: 500;
+        }
+
+        .top-btn {
+            background: #d4a373;
+            color: white;
+            padding: 8px 16px;
+            border-radius: 8px;
+            text-decoration: none;
+            font-size: 14px;
+            transition: all 0.3s;
+        }
+
+        .top-btn:hover {
+            background: #b88352;
+            transform: scale(1.02);
+        }
+
+        .top-btn.green {
+            background: #8fbc8f;
+        }
+        .top-btn.green:hover {
+            background: #6e9e6e;
+        }
+
+        .top-btn.blue {
+            background: #a8c4d4;
+            color: #4a3a2a;
+        }
+        .top-btn.blue:hover {
+            background: #8cacc0;
+        }
 
         /* Главный контейнер */
         .main-wrapper {
@@ -84,26 +113,26 @@
         }
 
         .sidebar-menu {
-            background: white;
+            background: rgba(255, 252, 245, 0.95);
             border-radius: 16px;
             padding: 20px 15px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #f0e8dc;
         }
 
         .sidebar-title {
-            color: #2c3e50;
+            color: #5a4a3a;
             font-size: 18px;
             font-weight: bold;
             padding-bottom: 15px;
-            border-bottom: 1px solid #eee;
+            border-bottom: 1px solid #f0e8dc;
             margin-bottom: 20px;
             text-align: center;
         }
 
         .sidebar-btn {
             display: block;
-            background: #3498db;
+            background: #d4a373;
             color: white;
             padding: 12px 15px;
             text-decoration: none;
@@ -114,43 +143,117 @@
             font-weight: 500;
         }
 
-        .sidebar-btn:hover { background: #2980b9; transform: translateX(5px); }
-        .sidebar-btn.orange { background: #e67e22; }
-        .sidebar-btn.orange:hover { background: #d35400; }
-        .sidebar-btn.purple { background: #8e44ad; }
-        .sidebar-btn.purple:hover { background: #71368a; }
-        .sidebar-btn.green { background: #27ae60; }
-        .sidebar-btn.green:hover { background: #1e8449; }
-        .badge { background: #e74c3c; border-radius: 50%; padding: 2px 8px; margin-left: 8px; font-size: 12px; }
+        .sidebar-btn:hover {
+            background: #b88352;
+            transform: translateX(5px);
+        }
+
+        .sidebar-btn.orange {
+            background: #e0a878;
+        }
+        .sidebar-btn.orange:hover {
+            background: #cc8c58;
+        }
+
+        .sidebar-btn.purple {
+            background: #b8a0c8;
+        }
+        .sidebar-btn.purple:hover {
+            background: #9e80b0;
+        }
+
+        .sidebar-btn.green {
+            background: #9cbf8c;
+        }
+        .sidebar-btn.green:hover {
+            background: #7eaa6a;
+        }
+
+        .badge {
+            background: #e07a5f;
+            border-radius: 50%;
+            padding: 2px 8px;
+            margin-left: 8px;
+            font-size: 12px;
+        }
 
         /* Основной контент */
         .main-content {
             flex: 1;
-            background: white;
+            background: rgba(255, 252, 245, 0.95);
             border-radius: 20px;
             padding: 30px;
-            box-shadow: 0 4px 15px rgba(0,0,0,0.1);
-            border: 1px solid #e0e0e0;
+            box-shadow: 0 4px 15px rgba(0,0,0,0.05);
+            border: 1px solid #f0e8dc;
         }
 
+        /* Сообщения */
         .flash { padding: 10px; margin-bottom: 20px; border-radius: 8px; }
-        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
-        .danger { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
-        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
+        .success { background: #e8f0e0; color: #4a6e3a; border: 1px solid #d0e0c0; }
+        .danger { background: #f0e0e0; color: #8a5a4a; border: 1px solid #e0d0c0; }
+        .info { background: #e0e8f0; color: #4a6a7a; border: 1px solid #d0dce0; }
 
-        button, .btn { background: #3498db; color: white; padding: 10px 20px; border: none; border-radius: 8px; cursor: pointer; transition: all 0.3s; }
-        button:hover, .btn:hover { background: #2980b9; transform: scale(1.02); }
+        button, .btn {
+            background: #d4a373;
+            color: white;
+            padding: 10px 20px;
+            border: none;
+            border-radius: 8px;
+            cursor: pointer;
+            transition: all 0.3s;
+        }
+        button:hover, .btn:hover {
+            background: #b88352;
+            transform: scale(1.02);
+        }
 
-        input, textarea, select { width: 100%; padding: 10px; margin: 10px 0; border: 1px solid #ddd; border-radius: 8px; background: white; }
+        input, textarea, select {
+            width: 100%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #f0e0d0;
+            border-radius: 8px;
+            background: #fffefa;
+        }
 
-        table { width: 100%; border-collapse: collapse; background: white; border-radius: 12px; overflow: hidden; box-shadow: 0 1px 3px rgba(0,0,0,0.1); }
-        th { background: #2c3e50; color: white; padding: 12px; }
-        td { padding: 10px; border-bottom: 1px solid #eee; }
+        table {
+            width: 100%;
+            border-collapse: collapse;
+            background: #fffefa;
+            border-radius: 12px;
+            overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.05);
+        }
 
-        h2 { color: #2c3e50; margin-bottom: 10px; }
-        h3 { color: #34495e; margin: 20px 0 15px 0; }
+        th {
+            background: #d4a373;
+            color: white;
+            padding: 12px;
+        }
 
-        .price-card { background: #f8f9fa; border-radius: 12px; padding: 20px; margin-bottom: 20px; border: 1px solid #e0e0e0; }
+        td {
+            padding: 10px;
+            border-bottom: 1px solid #f0e8dc;
+        }
+
+        h2 { color: #5a4a3a; margin-bottom: 10px; }
+        h3 { color: #7a6a5a; margin: 20px 0 15px 0; }
+
+        .price-card {
+            background: #fffefa;
+            border-radius: 12px;
+            padding: 20px;
+            margin-bottom: 20px;
+            border: 1px solid #f0e8dc;
+        }
+
+        .stat-card {
+            background: #fffefa;
+            border-radius: 12px;
+            padding: 20px;
+            text-align: center;
+            border: 1px solid #f0e8dc;
+        }
 
         @media (max-width: 768px) {
             .main-wrapper { flex-direction: column; }
@@ -161,8 +264,9 @@
     </style>
 </head>
 <body>
+    <!-- ФОН СВЕТЛЫЙ С ИЗОБРАЖЕНИЕМ -->
     <div class="parallax-bg" id="parallaxBg"></div>
-    <div class="dark-overlay"></div>
+    <div class="light-overlay"></div>
 
     <div class="top-bar">
         {% if current_user.is_authenticated %}
@@ -181,10 +285,16 @@
                     <div class="sidebar-menu">
                         <div class="sidebar-title">Меню мастера</div>
                         <a href="/dashboard/master" class="sidebar-btn">Главная</a>
-                        <a href="/chat" class="sidebar-btn">Чаты {% if unread_count is defined and unread_count > 0 %}<span class="badge">{{ unread_count }}</span>{% endif %}</a>
-                        <a href="/all-appointments" class="sidebar-btn orange">Записи клиентов {% if pending_count is defined and pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}</a>
+                        <a href="/chat" class="sidebar-btn">
+                            Чаты
+                            {% if unread_count is defined and unread_count > 0 %}<span class="badge">{{ unread_count }}</span>{% endif %}
+                        </a>
+                        <a href="/all-appointments" class="sidebar-btn orange">
+                            Записи клиентов
+                            {% if pending_count is defined and pending_count > 0 %}<span class="badge">{{ pending_count }}</span>{% endif %}
+                        </a>
                         <a href="/settings/working-hours" class="sidebar-btn purple">Рабочие часы</a>
-                        <a href="/finance" class="sidebar-btn" style="background: #f39c12;">Финансы</a>
+                        <a href="/finance" class="sidebar-btn" style="background: #e0a878;">Финансы</a>
                     </div>
                 </div>
             {% elif current_user.role == 'client' %}
@@ -192,7 +302,10 @@
                     <div class="sidebar-menu">
                         <div class="sidebar-title">Меню клиента</div>
                         <a href="/dashboard/client" class="sidebar-btn">Главная</a>
-                        <a href="/chat" class="sidebar-btn">Чат с мастером {% if unread_count is defined and unread_count > 0 %}<span class="badge">{{ unread_count }}</span>{% endif %}</a>
+                        <a href="/chat" class="sidebar-btn">
+                            Чат с мастером
+                            {% if unread_count is defined and unread_count > 0 %}<span class="badge">{{ unread_count }}</span>{% endif %}
+                        </a>
                         <a href="/my-appointments" class="sidebar-btn green">Мои записи</a>
                         <a href="/appointment/book" class="sidebar-btn orange">Новая запись</a>
                         <a href="/order/create" class="sidebar-btn purple">Новый заказ</a>
@@ -216,7 +329,7 @@
             const bg = document.getElementById('parallaxBg');
             if (!bg) return;
             let mouseX = 0, mouseY = 0, currentX = 0, currentY = 0;
-            const speed = 0.04, maxMove = 5;
+            const speed = 0.04, maxMove = 3;
             document.addEventListener('mousemove', function(e) {
                 const xPercent = (e.clientX / window.innerWidth) - 0.5;
                 const yPercent = (e.clientY / window.innerHeight) - 0.5;
