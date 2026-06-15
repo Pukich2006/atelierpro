@@ -8,68 +8,45 @@
 
         body {
             font-family: 'Segoe UI', Arial, sans-serif;
-            background: #0f0f1a;
+            background: #f5f5f5;
             min-height: 100vh;
             overflow-x: hidden;
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24"><path d="M5 2 L20 12 L5 22 L7 12 Z" fill="%23f1c40f" stroke="%23ffffff" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="12" r="2" fill="%23e74c3c"/></svg>'), auto;
+            cursor: default;
         }
 
+        /* Курсор для ссылок и кнопок */
         a, button, .btn, select, input[type="submit"], [onclick] {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="28" height="28" viewBox="0 0 24 24"><path d="M5 2 L20 12 L5 22 L7 12 Z" fill="%23f1c40f" stroke="%23ffffff" stroke-width="1.5" stroke-linejoin="round"/><circle cx="12" cy="12" r="2" fill="%23e74c3c"/><path d="M15 8 L22 12 L15 16 L16 12 Z" fill="%23e67e22" opacity="0.8"/></svg>'), pointer;
+            cursor: pointer;
         }
 
+        /* Курсор для текстовых полей */
         input[type="text"], input[type="email"], input[type="password"], input[type="tel"], input[type="number"], textarea, select {
-            cursor: url('data:image/svg+xml;utf8,<svg xmlns="http://www.w3.org/2000/svg" width="20" height="20" viewBox="0 0 24 24"><path d="M5 2 L20 12 L5 22 L7 12 Z" fill="%23f39c12" stroke="%23ffffff" stroke-width="1.5"/></svg>'), text;
+            cursor: text;
         }
 
-        .parallax-bg {
-            position: fixed;
-            top: -10%;
-            left: -10%;
-            width: 120%;
-            height: 120%;
-            z-index: -2;
-            background-image: url('https://images.pexels.com/photos/994517/pexels-photo-994517.jpeg?auto=compress&cs=tinysrgb&w=1600');
-            background-size: cover;
-            background-position: center;
-            filter: blur(8px) brightness(0.55);
-            transition: transform 0.03s ease-out;
-            will-change: transform;
-        }
-
-        .dark-overlay {
-            position: fixed;
-            top: 0;
-            left: 0;
-            width: 100%;
-            height: 100%;
-            background: rgba(0, 0, 0, 0.45);
-            z-index: -1;
-        }
-
+        /* Верхняя панель */
         .top-bar {
             position: fixed;
             top: 0;
             right: 0;
             left: 0;
             z-index: 100;
-            background: rgba(44, 62, 80, 0.85);
-            backdrop-filter: blur(12px);
+            background: #ffffff;
+            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
             padding: 12px 30px;
             display: flex;
             justify-content: flex-end;
             align-items: center;
             gap: 20px;
-            border-bottom: 1px solid rgba(255,255,255,0.1);
         }
 
         .user-info {
-            color: white;
+            color: #2c3e50;
             font-size: 14px;
         }
 
         .top-btn {
-            background: rgba(231, 76, 60, 0.8);
+            background: #e74c3c;
             color: white;
             padding: 8px 16px;
             border-radius: 8px;
@@ -79,24 +56,25 @@
         }
 
         .top-btn:hover {
-            background: rgba(231, 76, 60, 1);
+            background: #c0392b;
             transform: scale(1.02);
         }
 
         .top-btn.green {
-            background: rgba(39, 174, 96, 0.8);
+            background: #27ae60;
         }
         .top-btn.green:hover {
-            background: rgba(39, 174, 96, 1);
+            background: #1e8449;
         }
 
         .top-btn.blue {
-            background: rgba(52, 152, 219, 0.8);
+            background: #3498db;
         }
         .top-btn.blue:hover {
-            background: rgba(52, 152, 219, 1);
+            background: #2980b9;
         }
 
+        /* Главный контейнер */
         .main-wrapper {
             display: flex;
             min-height: 100vh;
@@ -106,6 +84,7 @@
             gap: 25px;
         }
 
+        /* Боковое меню */
         .sidebar {
             width: 260px;
             flex-shrink: 0;
@@ -115,26 +94,26 @@
         }
 
         .sidebar-menu {
-            background: rgba(44, 62, 80, 0.85);
-            backdrop-filter: blur(12px);
+            background: white;
             border-radius: 16px;
             padding: 20px 15px;
-            border: 1px solid rgba(255,255,255,0.15);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
         }
 
         .sidebar-title {
-            color: white;
+            color: #2c3e50;
             font-size: 18px;
             font-weight: bold;
             padding-bottom: 15px;
-            border-bottom: 1px solid rgba(255,255,255,0.2);
+            border-bottom: 1px solid #eee;
             margin-bottom: 20px;
             text-align: center;
         }
 
         .sidebar-btn {
             display: block;
-            background: rgba(52, 152, 219, 0.7);
+            background: #3498db;
             color: white;
             padding: 12px 15px;
             text-decoration: none;
@@ -146,29 +125,29 @@
         }
 
         .sidebar-btn:hover {
-            background: rgba(52, 152, 219, 1);
+            background: #2980b9;
             transform: translateX(5px);
         }
 
         .sidebar-btn.orange {
-            background: rgba(230, 126, 34, 0.7);
+            background: #e67e22;
         }
         .sidebar-btn.orange:hover {
-            background: rgba(230, 126, 34, 1);
+            background: #d35400;
         }
 
         .sidebar-btn.purple {
-            background: rgba(142, 68, 173, 0.7);
+            background: #8e44ad;
         }
         .sidebar-btn.purple:hover {
-            background: rgba(142, 68, 173, 1);
+            background: #71368a;
         }
 
         .sidebar-btn.green {
-            background: rgba(39, 174, 96, 0.7);
+            background: #27ae60;
         }
         .sidebar-btn.green:hover {
-            background: rgba(39, 174, 96, 1);
+            background: #1e8449;
         }
 
         .badge {
@@ -179,21 +158,23 @@
             font-size: 12px;
         }
 
+        /* Основной контент */
         .main-content {
             flex: 1;
-            background: rgba(255, 255, 255, 0.92);
-            backdrop-filter: blur(8px);
+            background: white;
             border-radius: 20px;
             padding: 30px;
-            border: 1px solid rgba(255,255,255,0.3);
-            box-shadow: 0 8px 32px rgba(0,0,0,0.2);
+            box-shadow: 0 2px 10px rgba(0,0,0,0.08);
+            border: 1px solid #e0e0e0;
         }
 
+        /* Стили для сообщений */
         .flash { padding: 10px; margin-bottom: 20px; border-radius: 8px; }
-        .success { background: #d4edda; color: #155724; }
-        .danger { background: #f8d7da; color: #721c24; }
-        .info { background: #d1ecf1; color: #0c5460; }
+        .success { background: #d4edda; color: #155724; border: 1px solid #c3e6cb; }
+        .danger { background: #f8d7da; color: #721c24; border: 1px solid #f5c6cb; }
+        .info { background: #d1ecf1; color: #0c5460; border: 1px solid #bee5eb; }
 
+        /* Кнопки */
         button, .btn {
             background: #3498db;
             color: white;
@@ -208,21 +189,24 @@
             transform: scale(1.02);
         }
 
+        /* Формы */
         input, textarea, select {
             width: 100%;
             padding: 10px;
             margin: 10px 0;
             border: 1px solid #ddd;
             border-radius: 8px;
-            background: rgba(255,255,255,0.9);
+            background: white;
         }
 
+        /* Таблицы */
         table {
             width: 100%;
             border-collapse: collapse;
             background: white;
             border-radius: 12px;
             overflow: hidden;
+            box-shadow: 0 1px 3px rgba(0,0,0,0.1);
         }
 
         th {
@@ -233,20 +217,22 @@
 
         td {
             padding: 10px;
-            border-bottom: 1px solid #ddd;
+            border-bottom: 1px solid #eee;
         }
 
-        h2 { margin-bottom: 10px; }
-        h3 { margin: 20px 0 15px 0; }
+        h2 { color: #2c3e50; margin-bottom: 10px; }
+        h3 { color: #34495e; margin: 20px 0 15px 0; }
 
+        /* Карточки */
         .price-card {
-            background: white;
+            background: #f8f9fa;
             border-radius: 12px;
             padding: 20px;
             margin-bottom: 20px;
-            box-shadow: 0 2px 10px rgba(0,0,0,0.1);
+            border: 1px solid #e0e0e0;
         }
 
+        /* Адаптация для мобильных */
         @media (max-width: 768px) {
             .main-wrapper {
                 flex-direction: column;
@@ -268,9 +254,7 @@
     </style>
 </head>
 <body>
-    <div class="parallax-bg" id="parallaxBg"></div>
-    <div class="dark-overlay"></div>
-
+    <!-- Верхняя панель -->
     <div class="top-bar">
         {% if current_user.is_authenticated %}
             <span class="user-info">{{ current_user.name }} ({{ current_user.role }})</span>
@@ -282,6 +266,7 @@
     </div>
 
     <div class="main-wrapper">
+        <!-- Боковое меню (только для авторизованных) -->
         {% if current_user.is_authenticated %}
             {% if current_user.role == 'master' %}
                 <div class="sidebar">
@@ -317,6 +302,7 @@
             {% endif %}
         {% endif %}
 
+        <!-- Основной контент -->
         <div class="main-content">
             {% with messages = get_flashed_messages(with_categories=true) %}
                 {% for category, message in messages %}
@@ -326,39 +312,5 @@
             {% block content %}{% endblock %}
         </div>
     </div>
-
-    <script>
-        (function() {
-            const bg = document.getElementById('parallaxBg');
-            if (!bg) return;
-
-            let mouseX = 0;
-            let mouseY = 0;
-            let currentX = 0;
-            let currentY = 0;
-
-            const speed = 0.04;
-            const maxMove = 6;
-
-            document.addEventListener('mousemove', function(e) {
-                const xPercent = (e.clientX / window.innerWidth) - 0.5;
-                const yPercent = (e.clientY / window.innerHeight) - 0.5;
-
-                mouseX = xPercent * maxMove;
-                mouseY = yPercent * maxMove;
-            });
-
-            function animate() {
-                currentX += (mouseX - currentX) * speed;
-                currentY += (mouseY - currentY) * speed;
-
-                bg.style.transform = `translate(${currentX}%, ${currentY}%)`;
-
-                requestAnimationFrame(animate);
-            }
-
-            animate();
-        })();
-    </script>
 </body>
 </html>
